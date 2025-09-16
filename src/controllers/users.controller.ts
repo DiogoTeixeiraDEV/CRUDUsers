@@ -1,8 +1,12 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, ParseIntPipe, Post, Param, Delete, UseGuards } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { createUserDto } from 'src/dto/create-users.dto';
 import { Roles } from 'src/middlewares/roles.decorator';
+import { JwtGuard } from 'src/middlewares/jwt.guard';
+import { RolesGuard } from 'src/middlewares/roles.guard';
 
+
+@UseGuards(JwtGuard, RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}

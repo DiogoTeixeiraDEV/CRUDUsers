@@ -17,7 +17,7 @@ export class UsersService {
           email : createDto.email,
           username : createDto.username || '',
           password: hashed,
-          role,
+          role: createDto.role || 'USER',
         },
         select: {id : true, email : true, username: true, role: true, createdAt: true},
 
