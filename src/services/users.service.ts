@@ -9,7 +9,7 @@ export class UsersService {
  constructor(private prisma: PrismaService) {}
 
  async create (createDto: createUserDto, role : 'USER' | 'ADMIN'){
- const hashed = await bcrypt.hash(createDto.password, 10);
+ const hashed = await bcrypt.hash(createDto.password.toString(), 10);
 
   try {
       const user = await this.prisma.user.create({
@@ -54,7 +54,7 @@ export class UsersService {
 ) {
   
   if (data.password) {
-    data.password = await bcrypt.hash(data.password, 10);
+    data.password = await bcrypt.hash(data.password.toString(), 10);
   }
 
   const updatedUser = await this.prisma.user.update({
