@@ -5,7 +5,7 @@ import { createUserDto } from 'src/dto/create-users.dto';
 import { LoginDto } from 'src/dto/login.dto';
 
 
-@Controller('Auth')
+@Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService, private usersService: UsersService) {}
 

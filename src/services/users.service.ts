@@ -8,14 +8,14 @@ export class UsersService {
 
  constructor(private prisma: PrismaService) {}
 
- async create (createDto: createUserDto, role : 'USER' | 'ADMIN' = 'USER'){
+ async create (createDto: createUserDto, role : 'USER' | 'ADMIN'){
  const hashed = await bcrypt.hash(createDto.password, 10);
 
   try {
       const user = await this.prisma.user.create({
         data : {
           email : createDto.email,
-          username : createDto.username,
+          username : createDto.username || '',
           password: hashed,
           role,
         },
@@ -48,12 +48,30 @@ export class UsersService {
     return this.prisma.user.findUnique({ where: { email } });
   }
 
- async update (id: number){
-  return this.prisma.user.update({
-    where : { id },
-    select : { id: true, email: true, username: true, role: true, createdAt: true }
+ async update(
+  id: number,
+  data: Partial<{ email: string; username?: string; password: string; role?: 'USER' | 'ADMIN' }>
+) {
+  
+  if (data.password) {
+    data.password = await bcrypt.hash(data.password, 10);
+  }
+
+  const updatedUser = await this.prisma.user.update({
+    where: { id },
+    data, 
+    select: {
+      id: true,
+      email: true,
+      username: true,
+      role: true,
+      createdAt: true,
+      updatedAt: true,
+    },
   });
- }
+
+  return updatedUser;
+}
 
  async remove(id: number) {
     await this.prisma.user.delete({ where: { id } });
