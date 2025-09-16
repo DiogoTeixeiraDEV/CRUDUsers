@@ -7,4 +7,4 @@ import { UsersService } from '../services/users.service';
   controllers: [UsersController],
   providers: [UsersService],
 })
-export class AppModule {}
+export class UsersModule {}
