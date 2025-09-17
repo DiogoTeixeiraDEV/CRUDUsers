@@ -24,6 +24,15 @@ export class UsersController {
     
   }
 
+  @Post()
+  @Roles('ADMIN')
+  update(
+    @Body('id', ParseIntPipe) id: number,
+    @Body() data: Partial<{ email: string; username?: string; password: string; role?: 'USER' | 'ADMIN' }>
+  ) {
+    return this.usersService.update(id, data);
+  }
+
   @Get(':id')
   @Roles('ADMIN')
   findOne(@Param('id', ParseIntPipe) id: number){
