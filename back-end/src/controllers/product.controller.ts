@@ -13,7 +13,7 @@ export class ProductController {
     @Post()
     @Roles('ADMIN')
     createProduct(@Body() dto: createProductDto) {
-        return this.ProductService.createProduct(dto.name, dto.category, dto.stock);
+        return this.ProductService.createProduct(dto);
     }
 
     @Get()
@@ -30,7 +30,7 @@ export class ProductController {
 
     @Post(':id')
     @Roles('ADMIN')
-    updateProduct(id: number, @Body() data : Partial<{ name?: string; category?: string; stock?: number }>) {
+    updateProduct(id: number, @Body() data : Partial<{ dto: createProductDto }>) {
         return this.ProductService.updateProduct(id, data);
     }
 

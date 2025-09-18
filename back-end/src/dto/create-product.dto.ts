@@ -1,4 +1,5 @@
 import { IsString, IsInt } from "class-validator";
+import { isFloat16Array } from "util/types";
 
 export class createProductDto {
     @IsString()
@@ -6,6 +7,8 @@ export class createProductDto {
 
     @IsString()
     category: string;
+
+    Price: number;
 
     @IsInt()
     stock: number;
