@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Box, Button, Input, VStack, Text, HStack, Link } from "@chakra-ui/react";
+import { Box, Button, Input, VStack, Text, HStack, Link as ChakraLink } from "@chakra-ui/react";
 import { loginUser } from "../api/users";
-import { useApp } from "../context/App.context.ts";
+import { useApp } from "../context/App.context";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 
 export default function LoginPage() {
@@ -15,7 +15,8 @@ export default function LoginPage() {
     try {
         setError("");
         const response = await loginUser(email, password);
-        setUser ({...response.user, token: response.token});
+        console.log ("token received:", response.access_token);
+        setUser ({token: response.access_token});
         navigate("/products");
     } catch (err) {
         setError("Erro ao logar. Verifique suas credenciais.");
@@ -34,22 +35,21 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
-             { error && <Text color="red.500">{error}</Text>}
                         <Input
                             placeholder="Senha"
                             type="password"
                             value={password}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                         />
-                        {error && <Text color="red.500">{error}</Text>}
+            {error && <Text color="red.500">{error}</Text>}
             <Button colorScheme="brand" onClick={handleLogin} w="full">
                 Entrar
             </Button>
             <HStack>
           <Text>Não tem uma conta?</Text>
-          <Link as={RouterLink} to="/register" color="blue.500" fontWeight="bold">
+          <ChakraLink as={RouterLink as any} to="/register" color="blue.500" fontWeight="bold">
             Cadastre-se
-          </Link>
+          </ChakraLink>
         </HStack>
 
         </VStack>

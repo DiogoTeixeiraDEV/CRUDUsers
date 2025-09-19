@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
-import type { LoginResponse } from "../api/users";
 
-type AppUser = LoginResponse["user"] & { token: string } | null;
+type AppUser = { token: string } | null;
 
 interface AppContextType {
   user: AppUser;

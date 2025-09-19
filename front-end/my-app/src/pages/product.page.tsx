@@ -11,7 +11,7 @@ export default function ProductPage() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        if (!user || !user.token) {
+        if (!user?.token) {
             setError("Você precisa estar logado para ver os produtos.");
             setLoading(false);
             return;

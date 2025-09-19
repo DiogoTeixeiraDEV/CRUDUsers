@@ -1,17 +1,11 @@
 
-const API_URL = 'http://localhost:3000/users';
+const API_URL = 'http://localhost:3000/auth';
 
 export interface LoginResponse {
-  token: string;
-  user : {
-    id: number;
-    username: string;
-    email: string;
-  }
+  access_token: string;
 }
 
 export interface RegisterData {
-  id: number;
   username: string;
   email: string;
   password: string;
@@ -28,7 +22,9 @@ export async function loginUser(email: string, password: string): Promise<LoginR
   if (!response.ok) {
     throw new Error('Email ou senha inválidos');
   }
-  return response.json();
+  const data = await response.json();
+  console.log (data);
+  return data;
 }
 
 export async function registerUser(data: RegisterData){
@@ -37,7 +33,7 @@ export async function registerUser(data: RegisterData){
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ data }),
+    body: JSON.stringify( data ),
   });
     if (!response.ok) { 
         throw new Error('Failed to register user');

@@ -9,12 +9,15 @@ export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
     const navigate = useNavigate();
 
     const handleRegister = async () => {
         try {
             await registerUser({ username, email, password } as RegisterData);
-            navigate("/login");
+            setSuccess("Registro bem-sucedido! Você pode fazer login agora.");
+            setTimeout(() => navigate("/login"), 1500 )
+
         } catch (err) {
             setError("Erro ao registrar. Tente novamente.");
             console.error("Registration error: ", err);
@@ -42,10 +45,11 @@ export default function RegisterPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                {error && <Text color = "red.500">{error}</Text>}
                 <Button colorScheme = "blue" onClick = {handleRegister} w = "full">
                      Cadastrar
                 </Button>
+                {error && <Text color = "red.500">{error}</Text>}
+                {success && <Text color = "green.500">{success}</Text>}
             </VStack>
         
         </Box>
